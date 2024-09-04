@@ -1,0 +1,337 @@
+Storage account
+we can use all open acces or provide some virtual network access to storage account
+we can also create private endpoint to connect the storage account
+we can use LRS,GRS
+
+
+Diff b/w Microsoft network routing and Internet routing
+Microsoft network routing will direct your traffic to enter the Microsoft cloud as quickly as possible from its source. 
+Internet routing will direct your traffic to enter the Microsoft cloud closer to the Azure endpoint.
+
+
+
+###### Terraform
+What is Terraform?
+Terraform is an open-source infrastructure as code (IaC) tool created by HashiCorp. It allows you to define and provision infrastructure using a high-level configuration language.
+What is Infrastructure as Code (IaC)?
+IaC is a method of managing and provisioning computing infrastructure through machine-readable configuration files, rather than physical hardware configuration or interactive configuration tools.
+
+What are Terraform Providers?
+Providers are plugins that enable Terraform to interact with APIs of various services. They are responsible for understanding API interactions and exposing resources.
+
+Intermediate Questions
+Explain the Terraform workflow.
+The typical workflow includes:
+Write: Define infrastructure in configuration files.
+Plan: Preview changes before applying.
+Apply: Execute the planned changes to reach the desired state.
+Destroy: Remove infrastructure managed by Terraform.
+
+What is a Terraform state file?
+The state file tracks the current state of your infrastructure. Terraform uses this file to map real-world resources to your configuration, keep track of metadata, and improve performance for large infrastructures.
+
+How do you manage multiple environments in Terraform?
+You can manage multiple environments by using workspaces, separate state files, or directory structures for different environments (e.g., dev, staging, production).
+Advanced Questions
+
+What are Terraform modules and how do you use them?
+Modules are reusable configurations that can be called multiple times within a project. They help in organizing and reusing code. You can create a module by organizing related resources into a directory and referencing it in your configuration.
+
+How do you handle secrets in Terraform?
+Secrets can be managed using environment variables, secret management tools like HashiCorp Vault, or by using Terraform’s built-in support for sensitive data.
+
+What is the purpose of the terraform import command?
+The terraform import command is used to import existing infrastructure into your Terraform state. This is useful for managing resources that were created outside of Terraform.
+
+Explain the difference between terraform plan and terraform apply.
+terraform plan generates an execution plan, showing what actions Terraform will take to achieve the desired state. terraform apply executes the actions proposed in the plan to create, update, or delete resources.
+
+Terraform State File
+The Terraform state file (terraform.tfstate) is a critical component in Terraform’s operation. It keeps track of the infrastructure resources managed by Terraform, mapping the configuration to the real-world resources. This file is essential for Terraform to know what resources exist, their current state, and how to manage updates1.
+
+Key Points about the State File:
+Tracking Resources: The state file records the current state of your infrastructure, allowing Terraform to manage and update resources efficiently.
+Performance: By caching the state, Terraform can quickly determine the changes needed without querying the cloud provider for the current state of resources.
+Collaboration: The state file can be stored remotely (e.g., in an S3 bucket or Terraform Cloud) to enable collaboration among team members2.
+
+
+Terraform State Locking
+State locking is a mechanism to prevent concurrent operations that could lead to conflicts or corruption of the state file. When Terraform performs operations that modify the state, it locks the state file to ensure that no other process can make changes simultaneously3.
+
+Key Points about State Locking:
+Automatic Locking: Terraform automatically locks the state file during operations that could write to it. This prevents multiple users from making conflicting changes3.
+Backend Support: Not all backends support state locking. For example, S3 with DynamoDB or Terraform Cloud supports state locking4.
+Force Unlock: If a lock is not released properly, you can use the terraform force-unlock command to manually unlock the state file. This should be done cautiously to avoid potential conflicts4.
+
+
+
+
+###### VNet
+
+What is an Azure Virtual Network (VNet)?
+An Azure Virtual Network (VNet) is a fundamental building block for your private network in Azure. It enables many types of Azure resources, such as Azure Virtual Machines (VMs), to securely communicate with each other, the internet, and on-premises networks.
+
+What are Network Security Groups (NSGs)?
+NSGs are used to filter network traffic to and from Azure resources in an Azure Virtual Network. They contain security rules that allow or deny inbound and outbound network traffic based on source and destination IP addresses, ports, and protocols1.
+Intermediate Questions
+
+What is VNet Peering?
+VNet Peering allows you to connect two Azure VNets seamlessly. The VNets appear as one for connectivity purposes, enabling resources in either VNet to communicate with each other with low latency and high bandwidth2.
+
+How do you configure User-Defined Routes (UDRs) in Azure?
+UDRs allow you to control the routing of network traffic within your virtual networks. You can create a route table, define custom routes, and associate the route table with subnets to direct traffic through specific paths, such as a network virtual appliance (NVA)1.
+
+Advanced Questions
+What is Azure ExpressRoute?
+Azure ExpressRoute is a service that provides a private connection between your on-premises networks and Azure data centers. It offers higher reliability, faster speeds, and lower latencies compared to typical internet connections2.
+
+How does Azure Load Balancer work?
+Azure Load Balancer distributes incoming network traffic across multiple backend resources or servers. It ensures high availability and reliability by spreading the load, and it supports both public and internal load balancing2.
+
+What is Azure Traffic Manager?
+Azure Traffic Manager is a DNS-based traffic load balancer that enables you to distribute traffic optimally to services across global Azure regions, providing high availability and responsiveness2.
+
+Explain the difference between Azure VPN Gateway and Azure Application Gateway.
+Azure VPN Gateway provides secure cross-premises connectivity between your Azure Virtual Network and your on-premises network. Azure Application Gateway is a web traffic load balancer that enables you to manage traffic to your web applications2.
+Scenario-Based Questions
+
+Describe a situation where you had to troubleshoot a network connectivity issue in Azure.
+Be prepared to discuss a specific example, detailing the steps you took to identify and resolve the issue, the tools you used (e.g., Azure Network Watcher), and the outcome.
+
+How would you secure an Azure Virtual Network?
+Discuss various security measures such as using NSGs, Azure Firewall, DDoS Protection, and implementing proper subnetting and network segmentation1.
+
+####Storage
+
+What is Azure Blob Storage?
+Azure Blob Storage is a scalable, cost-effective cloud storage service for unstructured data like images, videos, documents, and logs. It offers high availability, durability, and global redundancy1.
+
+What are the different types of blobs in Azure Blob Storage?
+There are three types of blobs:
+Block Blobs: Used for storing text and binary data, ideal for large files.
+Append Blobs: Optimized for append operations, suitable for logging.
+Page Blobs: Used for random read/write operations, ideal for virtual hard disks (VHDs)2.
+Intermediate Questions
+
+What are the different storage tiers in Azure Blob Storage?
+Azure Blob Storage offers three tiers:
+Hot Tier: For data that is accessed frequently.
+Cool Tier: For data that is infrequently accessed and stored for at least 30 days.
+Archive Tier: For data that is rarely accessed and stored for at least 180 days1.
+
+How do you secure data in Azure Storage?
+Data can be secured using several methods:
+Shared Access Signatures (SAS): Provides limited access to resources.
+Azure Active Directory (AAD): For role-based access control.
+Encryption: Data is encrypted at rest and in transit using Azure Storage Service Encryption (SSE) and HTTPS2.
+Advanced Questions
+
+What is Azure Storage Account and what are its types?
+An Azure Storage Account provides a unique namespace to store and access data objects. Types include:
+General-purpose v2 (GPv2): Supports all storage types and features.
+Blob Storage: Optimized for storing unstructured data as blobs.
+File Storage: For fully managed file shares in the cloud.
+Queue Storage: For storing large numbers of messages.
+Table Storage: For storing structured NoSQL data2.
+
+How do you monitor and troubleshoot Azure Storage?
+Monitoring and troubleshooting can be done using:
+Azure Monitor: For metrics and logs.
+Azure Storage Analytics: For logging and metrics.
+Azure Storage Explorer: For managing and accessing data.
+Azure CLI and PowerShell: For scripting and automation3.
+Scenario-Based Questions
+
+Describe a scenario where you had to migrate data to Azure Blob Storage.
+Be prepared to discuss the tools and strategies you used, such as Azure Data Box, AzCopy, or Azure Migrate, and how you ensured data integrity and minimal downtime.
+
+How would you optimize storage costs in Azure?
+Discuss strategies like using appropriate storage tiers, lifecycle management policies, and monitoring usage to identify and delete unused data3.
+
+
+######Azure compute
+
+What is Azure Virtual Machine (VM)?
+Azure Virtual Machines are scalable, on-demand computing resources that provide the flexibility of virtualization without the need to buy and maintain physical hardware. They support various operating systems and can be used for development, testing, and production workloads1.
+
+What is Azure App Service?
+Azure App Service is a fully managed platform for building, deploying, and scaling web apps, mobile app backends, and RESTful APIs. It supports multiple programming languages and frameworks, including .NET, Java, Node.js, and Python2.
+Intermediate Questions
+
+What is Azure Kubernetes Service (AKS)?
+Azure Kubernetes Service (AKS) simplifies the deployment, management, and operations of Kubernetes. It provides serverless Kubernetes, integrated CI/CD experiences, and enterprise-grade security and governance3.
+
+How do you scale an Azure VM?
+Azure VMs can be scaled vertically by changing the VM size or horizontally by adding more instances to a scale set. Azure also provides autoscaling capabilities to automatically adjust the number of VM instances based on demand1.
+Advanced Questions
+
+What is Azure Functions?
+Azure Functions is a serverless compute service that allows you to run event-driven code without having to explicitly provision or manage infrastructure. It supports various programming languages and integrates with other Azure services2.
+
+What is the difference between Azure VM Scale Sets and Availability Sets?
+VM Scale Sets: Allow you to deploy and manage a set of identical VMs. They support autoscaling and are ideal for large-scale applications.
+Availability Sets: Ensure that VMs are distributed across multiple isolated hardware nodes in a cluster to avoid a single point of failure1.
+Scenario-Based Questions
+
+Describe a scenario where you had to troubleshoot a performance issue with an Azure VM.
+Be prepared to discuss a specific example, detailing the steps you took to identify and resolve the issue, the tools you used (e.g., Azure Monitor, Azure Advisor), and the outcome.
+
+How would you design a highly available and scalable web application using Azure Compute services?
+Discuss using services like Azure App Service, Azure Traffic Manager, Azure Load Balancer, and Azure SQL Database. Explain how you would ensure high availability, scalability, and disaster recovery2.
+
+
+######Azure Virtual Machine
+
+What is an Azure Virtual Machine?
+Azure Virtual Machines are scalable, on-demand computing resources that provide the flexibility of virtualization without the need to buy and maintain physical hardware. They support various operating systems and can be used for development, testing, and production workloads1.
+
+What are the different types of Azure VMs?
+Azure VMs come in various sizes and types, optimized for different workloads:
+General Purpose: Balanced CPU-to-memory ratio, suitable for testing and development.
+Compute Optimized: High CPU-to-memory ratio, ideal for medium traffic web servers.
+Memory Optimized: High memory-to-CPU ratio, great for relational database servers.
+Storage Optimized: High disk throughput and IO, perfect for big data applications.
+GPU: Specialized VMs for heavy graphics rendering and video editing.
+High Performance Compute (HPC): For high-performance computing workloads2.
+Intermediate Questions
+
+What is the difference between Managed Disks and Unmanaged Disks in Azure?
+Managed Disks: Azure manages the storage accounts, providing better scalability, availability, and performance.
+Unmanaged Disks: You manage the storage accounts, which can be more complex but may offer cost savings in certain scenarios2.
+
+How do you ensure high availability for Azure VMs?
+High availability can be ensured by using:
+Availability Sets: Distributes VMs across multiple isolated hardware nodes in a cluster.
+Availability Zones: Physically separate locations within an Azure region.
+Load Balancers: Distributes traffic across multiple VMs3.
+Advanced Questions
+
+What is Azure VM Scale Sets?
+Azure VM Scale Sets allow you to create and manage a group of identical, load-balanced VMs. They support autoscaling and are ideal for large-scale applications3.
+
+How do you secure an Azure VM?
+Security measures include:
+Network Security Groups (NSGs): Control inbound and outbound traffic.
+Azure Bastion: Provides secure and seamless RDP and SSH connectivity.
+Azure Disk Encryption: Encrypts the OS and data disks.
+Azure Defender: Provides advanced threat protection3.
+Scenario-Based Questions
+
+Describe a scenario where you had to troubleshoot a performance issue with an Azure VM.
+Be prepared to discuss a specific example, detailing the steps you took to identify and resolve the issue, the tools you used (e.g., Azure Monitor, Azure Advisor), and the outcome.
+
+How would you migrate an on-premises VM to Azure?
+Discuss using tools like Azure Migrate, which helps in assessing, migrating, and optimizing on-premises VMs to Azure. Explain the steps involved, such as discovery, assessment, replication, and migration3.
+
+
+
+######Azure Migrate tool
+
+Migrating on-premises VMs to Azure using Azure Migrate involves several steps. Here’s a high-level overview of the process:
+
+Step-by-Step Guide
+Create an Azure Migrate Project
+Go to the Azure portal and create a new Azure Migrate project. This project will help you manage the migration process.
+Set Up the Azure Migrate Appliance
+Download and install the Azure Migrate appliance on your on-premises environment. This appliance will discover and assess your on-premises VMs.
+Configure the appliance to connect to your Azure Migrate project.
+Discover On-Premises VMs
+Use the Azure Migrate appliance to discover your on-premises VMs. This step involves connecting to your VMware vCenter or Hyper-V environment and identifying the VMs you want to migrate.
+Assess the VMs
+Perform an assessment to understand the readiness of your VMs for migration. The assessment will provide recommendations for VM sizes, cost estimates, and any potential issues that need to be addressed.
+Replicate the VMs
+Set up replication for the VMs you want to migrate. This involves configuring the replication settings and selecting the target Azure region and virtual network.
+The replication process will continuously synchronize the on-premises VMs with Azure.
+Run a Test Migration
+Before performing the actual migration, run a test migration to ensure everything works as expected. This step helps you verify that the VMs will function correctly in Azure.
+Migrate the VMs
+Once the test migration is successful, perform the actual migration. This step involves stopping the replication and committing the changes to Azure.
+After migration, perform any necessary post-migration tasks, such as updating DNS settings and verifying application functionality.
+
+
+#####VPC
+
+
+A Virtual Private Cloud (VPC) is a secure, isolated private cloud hosted within a public cloud. It allows organizations to run code, store data, host websites, and perform other tasks in a private environment, while still leveraging the scalability and convenience of public cloud infrastructure12.
+
+Key Features of a VPC:
+Isolation: VPCs provide a level of isolation from other users of the public cloud. This is typically achieved through private IP subnets, virtual local area networks (VLANs), and virtual private networks (VPNs)1.
+Scalability: VPCs can scale resources up or down based on demand, similar to other public cloud services2.
+Security: VPCs offer enhanced security features, such as encryption and access controls, to protect data and applications3.
+Customization: Users can configure their VPCs to meet specific requirements, including network configurations, security settings, and resource allocations2.
+Use Cases:
+Running Applications: Deploying applications that require secure and isolated environments.
+Data Storage: Storing sensitive data with enhanced security measures.
+Hybrid Cloud: Integrating on-premises infrastructure with cloud resources for a hybrid cloud setup.
+
+
+#######CI/CD in Azure DevOps
+
+CI/CD stands for Continuous Integration and Continuous Deployment/Delivery. In Azure DevOps, CI/CD is implemented using Azure Pipelines, which automate the process of building, testing, and deploying code.
+
+Continuous Integration (CI)
+Continuous Integration involves automatically building and testing code changes as they are committed to a shared repository. This helps to identify and fix bugs early in the development process, ensuring that the codebase remains stable1.
+Key Steps in CI:
+Code Commit: Developers commit code changes to a version control system like Git.
+Build Pipeline: Azure Pipelines automatically triggers a build process, compiling the code and running unit tests.
+Feedback: If the build or tests fail, developers receive immediate feedback to address issues.
+Continuous Deployment/Delivery (CD)
+Continuous Deployment extends CI by automatically deploying every change that passes the CI pipeline to production. This ensures that new features and fixes are delivered to users quickly and reliably2.
+Continuous Delivery is similar but may include a manual approval step before deployment to production.
+Key Steps in CD:
+Artifact Creation: Successful builds generate deployable artifacts.
+Release Pipeline: Azure Pipelines deploy these artifacts to various environments (e.g., staging, production).
+Testing and Validation: Automated tests and manual approvals ensure the deployment is successful and meets quality standards.
+Benefits of CI/CD in Azure DevOps
+Faster Time to Market: Automating the build, test, and deployment processes reduces the time required to deliver new features and fixes.
+Improved Quality: Continuous testing and integration help catch bugs early, improving the overall quality of the software.
+Enhanced Collaboration: Teams can work more effectively with a shared codebase and automated processes3.
+
+######Azure Load Balancer
+
+Azure Load Balancer is a Layer 4 (Transport Layer) service that distributes incoming network traffic across multiple backend resources, such as virtual machines (VMs) or instances in a virtual machine scale set. It ensures high availability and reliability by spreading the load, which helps to prevent any single resource from becoming a bottleneck1.
+
+Key Features:
+Inbound and Outbound Traffic: Supports both inbound and outbound scenarios, allowing you to manage traffic to and from your VMs.
+Low Latency and High Throughput: Designed to handle millions of requests per second while maintaining low latency.
+Health Probes: Continuously monitors the health of your application instances and only routes traffic to healthy instances.
+Port Forwarding: Allows you to access VMs in a virtual network by public IP address and port.
+IPv6 Support: Provides load balancing for both IPv4 and IPv6 traffic1.
+Types of Azure Load Balancers:
+Public Load Balancer: Distributes incoming internet traffic to your VMs. It provides outbound connections for VMs inside your virtual network by translating their private IP addresses to public IP addresses.
+Internal (Private) Load Balancer: Used for scenarios where private IPs are needed at the frontend only. It distributes traffic within a virtual network or from a VPN connection1.
+Use Cases:
+Web Applications: Distributing traffic to multiple web servers to ensure high availability.
+Microservices: Balancing load across different microservices to optimize performance.
+Hybrid Scenarios: Connecting on-premises networks with Azure VMs using a VPN and distributing traffic within the virtual network2.
+
+#########Git
+
+What is Git and why is it used?
+Git is a distributed version control system used to track changes in source code during software development. It allows multiple developers to work on a project simultaneously without overwriting each other’s changes1.
+
+What is a Git repository?
+A Git repository is a storage space where your project files and their revision history are stored. It can be local (on your machine) or remote (on a server like GitHub or GitLab)2.
+Intermediate Questions
+
+What is the difference between git pull and git fetch?
+git fetch downloads commits, files, and refs from a remote repository into your local repository but does not merge themgit pull does the same but also merges the changes into your current branch3.
+
+How do you resolve merge conflicts in Git?
+Merge conflicts occur when changes from different branches conflict with each other. To resolve them, you need to manually edit the conflicting files, mark them as resolved using git add, and then commit the changes4.
+Advanced Questions
+
+What is a detached HEAD in Git?
+A detached HEAD state occurs when you are not on a branch but directly on a commit. This can happen when you checkout a specific commit instead of a branch. Changes made in this state are not associated with any branch5.
+
+Explain the difference between git merge and git rebase.
+git merge combines the changes from one branch into another, creating a new commitgit rebase moves or combines a sequence of commits to a new base commit, creating a linear history6.
+Scenario-Based Questions
+
+Describe a scenario where you had to use git bisect to find a bug.
+git bisect is used to find the commit that introduced a bug by performing a binary search through the commit history. You would mark commits as good or bad, and Git will help you narrow down the commit that introduced the issue7.
+
+How do you handle large binary files in a Git repository?
+Large binary files can be managed using Git LFS (Large File Storage), which replaces large files with text pointers inside Git while storing the actual file content on a remote server8.
+
+
